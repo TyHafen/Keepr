@@ -1,4 +1,5 @@
 using System.Data;
+using Keepr.Models;
 
 namespace Keepr.Repositories
 {
@@ -9,6 +10,11 @@ namespace Keepr.Repositories
         public VaultsRepository(IDbConnection db)
         {
             _db = db;
+        }
+
+        internal Vault Create(Vault vaultData)
+        {
+
         }
     }
 }
