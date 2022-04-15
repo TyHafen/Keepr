@@ -39,6 +39,22 @@ namespace Keepr.Controllers
             }
         }
 
+        [HttpGet("{id}")]
+        public ActionResult<Keep> GetById(int id)
+        {
+            try
+            {
+                Keep keep = _keepsService.GetById(id);
+                return Ok(keep);
+            }
+            catch (System.Exception e)
+            {
+
+                return BadRequest(e.Message);
+            }
+
+        }
+
         [HttpGet]
         public ActionResult<List<KeepsController>> GetAll()
         {
@@ -53,6 +69,41 @@ namespace Keepr.Controllers
                 return BadRequest(e.Message);
             }
         }
+        [HttpPut("{id}")]
+        [Authorize]
+        public async Task<ActionResult<Keep>> Edit([FromBody] Keep keepData, int id)
+        {
+            try
+            {
+                Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+                keepData.Id = id;
+                keepData.CreatorId = userInfo.Id;
+                Keep keep = _keepsService.Edit(keepData);
+                return Ok(keep);
+            }
+            catch (System.Exception e)
+            {
+
+                return BadRequest(e.Message);
+            }
+        }
+        [HttpDelete("{id}")]
+        [Authorize]
+        public async Task<ActionResult<string>> DeleteAsync(int id)
+        {
+            try
+            {
+                Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+                _keepsService.Delete(id, userInfo.Id);
+                return Ok("Keep has been deleted");
+            }
+            catch (System.Exception e)
+            {
+
+                return BadRequest(e.Message);
+            }
+        }
+
 
 
 
