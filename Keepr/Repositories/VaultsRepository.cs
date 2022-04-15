@@ -14,7 +14,7 @@ namespace Keepr.Repositories
 
         internal Vault Create(Vault vaultData)
         {
-
+            int id =
         }
     }
 }
