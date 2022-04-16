@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Keepr.Models;
 using Keepr.Services;
@@ -11,6 +10,7 @@ namespace Keepr.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize]
     public class AccountController : ControllerBase
     {
         private readonly AccountService _accountService;
@@ -21,7 +21,7 @@ namespace Keepr.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+
         public async Task<ActionResult<Account>> Get()
         {
             try
@@ -34,6 +34,8 @@ namespace Keepr.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+
     }
 
 
