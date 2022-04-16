@@ -71,11 +71,20 @@ namespace Keepr.Repositories
 
         internal List<VaultKeepViewModel> GetKeepsByVault(int id)
         {
-            string sql = @"SELECT  k.*, vk.id AS VaultKeepId 
+            string sql = @"
+            SELECT
+            a.*,
+             k.*,
+            vk.id AS VaultKeepId 
             FROM vaultKeeps vk 
-            JOIN keeps k on k.id = vk.KeepId 
+            JOIN keeps k on k.id = vk.keepId 
+            JOIN accounts a ON a.id = k.creatorId
             WHERE vk.VaultId = @id;";
-            return _db.Query<VaultKeepViewModel>(sql, new { id }).ToList();
+            return _db.Query<Account, VaultKeepViewModel, VaultKeepViewModel>(sql, (a, vkvm) =>
+            {
+                vkvm.Creator = a;
+                return vkvm;
+            }, new { id }).ToList();
         }
 
         public void Delete(int id)
