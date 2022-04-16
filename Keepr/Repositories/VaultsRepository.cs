@@ -52,6 +52,12 @@ namespace Keepr.Repositories
             throw new Exception("SQL error on editting a vault. no rows affected");
         }
 
+        internal List<Vault> GetMyVaults(string id)
+        {
+            string sql = @"SELECT v.* FROM vaults v WHERE v.creatorId = @id";
+            return _db.Query<Vault>(sql, new { id }).ToList();
+        }
+
         internal void Delete(int id)
         {
             string sql = "DELETE FROM vaults WHERE id = @id LIMIT 1;";
@@ -64,5 +70,6 @@ namespace Keepr.Repositories
             SELECT v.* FROM vaults v WHERE v.creatorId = @id;";
             return _db.Query<Vault>(sql, new { id }).ToList();
         }
+
     }
 }
