@@ -69,6 +69,15 @@ namespace Keepr.Repositories
             throw new Exception("SQL error on editting a keep. no row was affected");
         }
 
+        internal List<VaultKeepViewModel> GetKeepsByVault(int id)
+        {
+            string sql = @"SELECT  k.*, vk.id AS VaultKeepId 
+            FROM vaultKeeps vk 
+            JOIN keeps k on k.id = vk.KeepId 
+            WHERE vk.VaultId = @id;";
+            return _db.Query<VaultKeepViewModel>(sql, new { id }).ToList();
+        }
+
         public void Delete(int id)
         {
             string sql = "DELETE FROM keeps WHERE id = @id LIMIT 1;";

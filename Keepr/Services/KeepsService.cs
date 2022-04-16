@@ -56,5 +56,10 @@ namespace Keepr.Services
                 throw new Exception("You cannot delete a keep you did make");
             }
         }
+
+        internal List<VaultKeepViewModel> GetKeepsByVault(int id)
+        {
+            return _keepsRepo.GetKeepsByVault(id);
+        }
     }
 }
