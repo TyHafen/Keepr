@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Keepr.Models;
 using Keepr.Repositories;
 
@@ -48,6 +49,11 @@ namespace Keepr.Services
             {
                 throw new Exception("You cannot delete a keep you did make");
             }
+        }
+
+        internal List<Vault> GetProfileVaults(string id)
+        {
+            return _vaultRepo.GetProfileVaults(id);
         }
     }
 }

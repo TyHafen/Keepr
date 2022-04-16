@@ -49,6 +49,11 @@ namespace Keepr.Services
             _keepsRepo.Delete(id);
         }
 
+        internal List<Keep> GetProfileKeeps(string id)
+        {
+            return _keepsRepo.GetProfileKeeps(id);
+        }
+
         private static void ValidateOwner(string userId, Keep data)
         {
             if (userId != data.CreatorId)
