@@ -44,24 +44,3 @@ SELECT
   *
 FROM
   vaultKeeps;
-DROP TABLE vaults;
-SELECT
-  *
-FROM
-  vaults;
-SELECT
-  *
-FROM
-  keeps;
-SELECT
-  k.*,
-  a.*
-FROM
-  keeps k
-  JOIN accounts a ON k.creatorId = a.id;
-DELETE FROM
-  keeps
-WHERE
-  id = 1
-LIMIT
-  1;
