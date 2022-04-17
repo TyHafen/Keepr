@@ -1,5 +1,10 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary px-3">
+    <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
+      <div class="d-flex flex-column align-items-center">
+        <h3>Keepr</h3>
+      </div>
+    </router-link>
     <div class="collapse navbar-collapse justify-content-end" id="navbarText">
       <!-- LOGIN COMPONENT HERE -->
       <Login />

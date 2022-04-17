@@ -2,18 +2,31 @@
   <div
     class="component"
     data-bs-toggle="modal"
-    data-bs-target="active-vault"
+    data-bs-target="#active-keep"
     @click="setActive"
   >
     <div class="bg-dark card-shadow selectable rounded">
       <img class="card-img" :src="keep.img" alt="Card image" />
       <div class="card-img-overlay d-flex">
-        <div class="row align-items-end">
-          <h4 class="card-title vault-text">{{ keep.name }}</h4>
+        <div class="row align-items-end justify-content-between m-0">
+          <div class="col-md-10 d-flex align-items-end">
+            <h5 class="card-title vault-text">{{ keep.name }}</h5>
+          </div>
+          <div class="col-md-2">
+            <img
+              v-if="keep.creator?.picture"
+              class="vault-creator"
+              :src="keep.creator?.picture"
+              alt=""
+            />
+          </div>
         </div>
       </div>
     </div>
   </div>
+  <Modal>
+    <template #modal-body><KeepsDetailsModal /></template>
+  </Modal>
 </template>
 
 
@@ -48,5 +61,10 @@ export default {
 }
 .card-shadow {
   box-shadow: 6px 6px 20px 6px rgba(0, 0, 0, 0.19);
+}
+.vault-creator {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
 }
 </style>

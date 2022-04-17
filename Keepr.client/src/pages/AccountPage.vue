@@ -26,13 +26,14 @@ import { useRoute } from 'vue-router'
 import { logger } from '../utils/Logger'
 import Pop from '../utils/Pop'
 import { profilesService } from '../services/ProfilesService.js'
+import { accountService } from '../services/AccountService.js'
 export default {
   name: 'Account',
   setup() {
     const route = useRoute()
     onMounted(async () => {
       try {
-        await profilesService.getProfileKeeps(route.params.id)
+        await accountService.getAccountVaults()
       } catch (error) {
         logger.error(error)
         Pop.toast(error.message, 'error')
