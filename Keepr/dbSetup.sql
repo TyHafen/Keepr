@@ -43,4 +43,16 @@ DROP TABLE vaultKeeps;
 SELECT
   *
 FROM
-  vaultKeeps;
+  vaultKeeps
+WHERE
+  vaultKeeps.vaultId = 38;
+SELECT
+  k.*,
+  a.*,
+  vk.id AS VaultKeepId
+FROM
+  vaultKeeps vk
+  JOIN keeps k ON k.id = vk.keepId
+  JOIN accounts a ON a.id = k.creatorId
+WHERE
+  vk.vaultId = 38;

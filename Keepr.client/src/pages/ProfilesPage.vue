@@ -21,7 +21,9 @@
         ></i>
       </h1>
       <div class="col-md-2 m-1" v-for="v in profileVaults" :key="v.id">
-        <h4>{{ v.name }}</h4>
+        <router-link :to="{ name: 'Vault', params: { id: v.id } }">
+          <h4>{{ v.name }}</h4>
+        </router-link>
       </div>
     </div>
     <div class="mt-5 m-3">
