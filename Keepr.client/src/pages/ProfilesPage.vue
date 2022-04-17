@@ -11,7 +11,14 @@
       </div>
     </div>
     <div class="row mt-5 m-3 justify-content-around">
-      <h1>Vaults <i class="mdi mdi-plus" @click=""></i></h1>
+      <h1>
+        Vaults
+        <i
+          class="mdi mdi-plus"
+          data-bs-toggle="modal"
+          data-bs-target="#create-vault"
+        ></i>
+      </h1>
       <div class="col-md-2 m-1" v-for="v in profileVaults" :key="v.id">
         <h4>{{ v.name }}</h4>
       </div>
@@ -25,6 +32,9 @@
       </div>
     </div>
   </div>
+  <VaultFormModal>
+    <template #modal-body><VaultForm /></template>
+  </VaultFormModal>
 </template>
 
 <script>
@@ -62,9 +72,9 @@ export default {
   columns: 6 220px;
   column-gap: 1rem;
 
-  div {
+  /* div {
     display: inline-block;
     width: 100%;
-  }
+  } */
 }
 </style>

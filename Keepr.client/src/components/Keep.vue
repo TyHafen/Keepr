@@ -24,9 +24,9 @@
       </div>
     </div>
   </div>
-  <Modal>
+  <ActiveVaultModal>
     <template #modal-body><KeepsDetailsModal /></template>
-  </Modal>
+  </ActiveVaultModal>
 </template>
 
 
