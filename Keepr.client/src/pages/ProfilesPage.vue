@@ -14,6 +14,7 @@
       <h1>
         Vaults
         <i
+          v-if="account.id == profile.id"
           class="mdi mdi-plus"
           data-bs-toggle="modal"
           data-bs-target="#create-vault"
@@ -59,6 +60,7 @@ export default {
       }
     })
     return {
+      account: computed(() => AppState.account),
       profile: computed(() => AppState.profile),
       profileVaults: computed(() => AppState.profileVaults),
       profileKeeps: computed(() => AppState.profileKeeps)
