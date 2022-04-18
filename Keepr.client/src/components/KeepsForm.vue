@@ -42,6 +42,9 @@
 <script>
 import { ref } from '@vue/reactivity';
 import { keepsService } from '../services/KeepsService';
+import { logger } from '../utils/Logger';
+import Pop from '../utils/Pop';
+import { Modal } from 'bootstrap';
 export default {
   setup() {
     let keep = ref({});
@@ -49,6 +52,7 @@ export default {
       keep,
       async createKeep() {
         try {
+          Modal.getOrCreateInstance(document.getElementById('create-keep')).hide()
           await keepsService.createKeep(keep.value)
         } catch (error) {
           logger.error(error)

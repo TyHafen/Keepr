@@ -10,7 +10,17 @@
         />
       </div>
       <div class="col-md-6">
-        <div class="row justify-content-center">keeps, sees, likes</div>
+        <div class="row justify-content-center">
+          <div class="col-md-9"></div>
+          <div class="col-md-3 d-flex justify-content-right p-1">
+            <div class="mx-2">
+              <h5><i class="mdi mdi-file"> </i>{{ keep.kept }}</h5>
+            </div>
+            <div class="mx-2">
+              <h5><i class="mdi mdi-eye"></i> {{ keep.views }}</h5>
+            </div>
+          </div>
+        </div>
 
         <div class="row m-3justify-content-center">
           <h1 class="border-bottom border-3 border-dark">

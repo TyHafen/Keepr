@@ -44,6 +44,7 @@ export default {
       vault,
       async createVault() {
         try {
+
           await vaultsService.createVault(vault.value);
         } catch (error) {
           logger.error(error)

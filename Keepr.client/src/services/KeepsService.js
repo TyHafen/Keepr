@@ -3,6 +3,9 @@ import { logger } from "../utils/Logger"
 import { api } from "./AxiosService"
 
 class KeepService {
+    async createKeep(keepData) {
+        const res = await api.post('api/keeps/', keepData)
+    }
     async getAll() {
         const res = await api.get('api/keeps')
         AppState.keeps = res.data
