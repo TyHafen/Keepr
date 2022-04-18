@@ -5,7 +5,10 @@
         <h1 class="vault-title">{{ vault.name }}</h1>
         <h1>{{ vault.description }}</h1>
       </div>
-      <div class="col-md-3 d-flex justify-content-around m-2 p-5">
+      <div
+        class="col-md-3 d-flex justify-content-around m-2 p-5"
+        @click="deleteVault(vault.id)"
+      >
         <button
           v-if="vault.creatorId == account.id"
           class="btn btn-primary btn-height"
@@ -31,6 +34,7 @@ import { onMounted } from '@vue/runtime-core';
 import { vaultsService } from '../services/VaultsService';
 import { AppState } from '../AppState';
 import { logger } from '../utils/Logger';
+import { router } from "../router"
 import Pop from '../utils/Pop';
 export default {
 
@@ -50,7 +54,19 @@ export default {
     })
     return {
       vault: computed(() => AppState.activeVault),
-      account: computed(() => AppState.account)
+      account: computed(() => AppState.account),
+      async deleteVault(id) {
+        try {
+          if (await Pop.confirm("Are you sure you want to delete this vault?")) {
+            await vaultsService.deleteVault(id);
+            router.push({ name: "Profile", params: { id: AppState.account.id } })
+          }
+        } catch (error) {
+          logger.error(error)
+          Pop.toast(error.message, 'error')
+        }
+
+      }
     }
   }
 }

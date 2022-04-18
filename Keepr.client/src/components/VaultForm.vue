@@ -2,7 +2,7 @@
   <div class="component">
     <form @submit.prevent="createVault">
       <div class="form-group">
-        <label for="exampleInputName">Vault Name</label>
+        <label for="exampleInputName"> Name</label>
         <input
           type="name"
           v-model="vault.name"
@@ -18,7 +18,7 @@
           type="description"
           v-model="vault.description"
           class="form-control"
-          id="exampleInputDescription1"
+          id="exampleDescription1"
           placeholder="description"
         />
       </div>

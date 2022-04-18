@@ -27,7 +27,14 @@
       </div>
     </div>
     <div class="mt-5 m-3">
-      <h1>Keeps <i class="mdi mdi-plus"></i></h1>
+      <h1>
+        Keeps
+        <i
+          class="mdi mdi-plus"
+          data-bs-toggle="modal"
+          data-bs-target="#create-keep"
+        ></i>
+      </h1>
       <div class="masonry">
         <div class="col-md-12 p-3" v-for="k in profileKeeps" :key="k.id">
           <Keep :keep="k" />
@@ -35,13 +42,18 @@
       </div>
     </div>
   </div>
+  <KeepFormModal>
+    <template #modal-title>Create a new keep</template>
+    <template #modal-body><KeepsForm /></template>
+  </KeepFormModal>
+
   <VaultFormModal>
     <template #modal-body><VaultForm /></template>
   </VaultFormModal>
 </template>
 
 <script>
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, watchEffect } from 'vue'
 import { AppState } from '../AppState'
 import { useRoute } from 'vue-router'
 import { logger } from '../utils/Logger'
@@ -56,6 +68,7 @@ export default {
         await profilesService.getProfile(route.params.id)
         await profilesService.getProfilesVaults(route.params.id)
         await profilesService.getProfilesKeeps(route.params.id)
+
       } catch (error) {
         logger.error(error)
         Pop.toast(error.message, 'error')

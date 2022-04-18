@@ -26,7 +26,13 @@ namespace Keepr.Services
 
         internal Keep GetById(int id)
         {
-            return _keepsRepo.GetById(id);
+            Keep original = _keepsRepo.GetById(id);
+            if (original == null)
+            {
+                throw new Exception("You cannot delete a keep you did make");
+            }
+            return original;
+
         }
 
         internal Keep Edit(Keep keepData)
@@ -45,8 +51,14 @@ namespace Keepr.Services
         internal void Delete(int id, string userId)
         {
             Keep original = GetById(id);
-            ValidateOwner(userId, original);
+            if (original.CreatorId != userId)
+            {
+                throw new Exception("You cannot delete a keep you did make");
+            }
+
             _keepsRepo.Delete(id);
+
+
         }
 
         internal List<Keep> GetProfileKeeps(string id)

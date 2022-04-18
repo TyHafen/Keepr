@@ -44,12 +44,23 @@ namespace Keepr.Controllers
             }
         }
         [HttpGet("{id}")]
-        public ActionResult<Vault> GetById(int id)
+        public async Task<ActionResult<Vault>> GetById(int id)
         {
             try
             {
+                Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
                 Vault vault = _vaultsService.GetById(id);
+                if (vault.IsPrivate && userInfo.Id == vault.CreatorId)
+                {
+                    return Ok(vault);
+                }
+                if (vault.IsPrivate && userInfo.Id != vault.CreatorId)
+                {
+                    throw new System.Exception("you cant see this vault beacuse it is private and os someone elses");
+                }
                 return Ok(vault);
+
+
             }
             catch (System.Exception e)
             {
@@ -93,12 +104,24 @@ namespace Keepr.Controllers
             }
         }
         [HttpGet("{id}/keeps")]
-        public ActionResult<List<VaultKeepViewModel>> GetKeeps(int id)
+        public async Task<ActionResult<List<VaultKeepViewModel>>> GetKeeps(int id)
         {
             try
             {
+                Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
                 List<VaultKeepViewModel> keeps = _keepsService.GetKeepsByVault(id);
+                Vault vault = _vaultsService.GetById(id);
+                if (vault.IsPrivate && vault.CreatorId != userInfo.Id)
+                {
+                    throw new System.Exception("Cant reach a private keep that isnt yours");
+                }
+                if (vault.IsPrivate && vault.CreatorId == userInfo.Id)
+                {
+                    return Ok(keeps);
+                }
                 return Ok(keeps);
+
+
             }
             catch (System.Exception e)
             {

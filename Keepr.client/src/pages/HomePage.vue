@@ -10,14 +10,14 @@
 
 
 <script>
-import { computed, onMounted } from '@vue/runtime-core'
+import { computed, onMounted, watchEffect } from '@vue/runtime-core'
 import { logger } from '../utils/Logger'
 import Pop from '../utils/Pop'
 import { keepsService } from '../services/KeepsService.js'
 import { AppState } from '../AppState'
 export default {
   setup() {
-    onMounted(async () => {
+    watchEffect(async () => {
       try {
         await keepsService.getAll()
       } catch (error) {

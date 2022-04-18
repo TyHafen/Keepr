@@ -9,8 +9,5 @@ namespace Keepr.Models
         public string CreatorId { get; set; }
         public Account? Creator { get; set; }
     }
-    public class VaultKeepViewModel : VaultKeep
-    {
-        public int VaultKeepId { get; set; }
-    }
+
 }
