@@ -27,9 +27,10 @@ namespace Keepr.Services
         internal Keep GetById(int id)
         {
             Keep original = _keepsRepo.GetById(id);
+            Edit(original);
             if (original == null)
             {
-                throw new Exception("You cannot delete a keep you did make");
+                throw new Exception("This keep doesnt exist");
             }
             return original;
 
@@ -42,6 +43,7 @@ namespace Keepr.Services
             {
                 throw new Exception("You cannot edit someone elses keep");
             }
+            original.Views++;
             original.Name = keepData.Name ?? original.Name;
             original.Description = keepData.Description ?? original.Description;
             original.Img = keepData.Img ?? original.Img;
