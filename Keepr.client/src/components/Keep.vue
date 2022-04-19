@@ -32,6 +32,8 @@
 
 <script>
 import { keepsService } from '../services/KeepsService'
+import { logger } from '../utils/Logger'
+import Pop from '../utils/Pop'
 export default {
   props: {
     keep: {

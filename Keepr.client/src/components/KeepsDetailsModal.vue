@@ -33,22 +33,16 @@
         <div class="row">
           <div class="col-md-6 d-flex align-items-end justify-content-around">
             <h4>
-              <div class="dropdown">
-                <button
-                  class="btn btn-primary dropdown-toggle"
-                  type="button"
-                  id="dropdownMenuButton"
-                  data-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                >
-                  Add to Vault
+              <div>
+                <title>add to Vault</title>
+                <select name="" id="" v-model="vaultId">
+                  <option :value="v.id" v-for="v in myVaults" :key="v.id">
+                    {{ v.name }}
+                  </option>
+                </select>
+                <button class="btn btn-primary m-1" @click="create">
+                  Add to vault
                 </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" href="#">Action</a>
-                  <a class="dropdown-item" href="#">Another action</a>
-                  <a class="dropdown-item" href="#">Something else here</a>
-                </div>
               </div>
             </h4>
 
@@ -78,20 +72,37 @@
 
 
 <script>
-import { computed } from '@vue/reactivity'
+import { computed, reactive, ref } from '@vue/reactivity'
 import { AppState } from '../AppState'
 import { Modal } from 'bootstrap'
 import { useRouter } from 'vue-router'
 import { logger } from '../utils/Logger'
 import Pop from '../utils/Pop'
 import { keepsService } from '../services/KeepsService'
+import { onMounted } from '@vue/runtime-core'
+import { profilesService } from '../services/ProfilesService'
+import { accountService } from '../services/AccountService'
+import { vaultKeepsService } from '../services/VaultKeepsService'
 
 export default {
   setup() {
+    const vaultId = ref({})
     const router = useRouter()
+    onMounted(async () => {
+      try {
+        await accountService.getAccountVaults()
+      } catch (error) {
+        logger.error(error)
+        Pop.toast(error.message, 'error')
+      }
+    })
+
+
     return {
+
       keep: computed(() => AppState.activeKeep),
       account: computed(() => AppState.account),
+      myVaults: computed(() => AppState.accountVaults),
       goToProfile(id) {
         Modal.getOrCreateInstance(document.getElementById('active-keep')).hide()
         router.push({ name: "Profile", params: { id } })
@@ -108,6 +119,16 @@ export default {
           Pop.toast(error.message, 'error')
         }
 
+      },
+      async create() {
+        try {
+          const newVaultKeep = { vaultId: vaultId.value, keepId: AppState.activeKeep.id }
+          logger.log(newVaultKeep)
+          await vaultKeepsService.create(newVaultKeep)
+        } catch (error) {
+          logger.error(error)
+          Pop.toast(error.message, 'error')
+        }
       }
 
     }

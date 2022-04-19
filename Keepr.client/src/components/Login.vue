@@ -2,7 +2,7 @@
   <span class="navbar-text">
     <button
       class="btn selectable text-success lighten-30 text-uppercase my-2 my-lg-0"
-      @click="login"
+      @click="login, getAccountVaults"
       v-if="!user.isAuthenticated"
     >
       Login
@@ -51,11 +51,13 @@
 import { computed } from "@vue/reactivity";
 import { AppState } from "../AppState";
 import { AuthService } from "../services/AuthService";
+import { accountService } from '../services/AccountService';
 export default {
   setup() {
     return {
       user: computed(() => AppState.user),
       account: computed(() => AppState.account),
+
       async login() {
         AuthService.loginWithPopup();
       },

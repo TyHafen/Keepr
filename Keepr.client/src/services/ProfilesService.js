@@ -19,6 +19,8 @@ class ProfilesService {
         AppState.profileVaults = res.data
         logger.log("profile vaults:", AppState.profileVaults)
     }
+
+
 }
 
 

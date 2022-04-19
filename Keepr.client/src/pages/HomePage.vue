@@ -15,9 +15,10 @@ import { logger } from '../utils/Logger'
 import Pop from '../utils/Pop'
 import { keepsService } from '../services/KeepsService.js'
 import { AppState } from '../AppState'
+import { accountService } from '../services/AccountService'
 export default {
   setup() {
-    watchEffect(async () => {
+    onMounted(async () => {
       try {
         await keepsService.getAll()
       } catch (error) {
