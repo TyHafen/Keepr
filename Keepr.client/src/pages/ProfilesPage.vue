@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="row m-2 justify-content-start p-3">
       <div class="col-md-1 p-2 align-items-end d-flex">
-        <img class="rounded" :src="profile.picture" alt="" />
+        <img class="rounded img-fluid" :src="profile.picture" alt="" />
       </div>
       <div class="col-md-9">
         <h1>{{ profile.name }}</h1>
@@ -15,6 +15,7 @@
         Vaults
         <i
           v-if="account.id == profile.id"
+          title="add vault"
           class="mdi mdi-plus selectable"
           data-bs-toggle="modal"
           data-bs-target="#create-vault"
@@ -32,6 +33,7 @@
       <h1>
         Keeps
         <i
+          title="add keep"
           class="mdi mdi-plus selectable"
           data-bs-toggle="modal"
           data-bs-target="#create-keep"

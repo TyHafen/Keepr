@@ -16,6 +16,7 @@
             <button
               v-if="vault.creatorId == account.id && $route.name == 'Vault'"
               class="btn btn-primary shadow"
+              title="delete keep from vault"
               @click="deleteKeepFromVault(keep.id)"
             >
               Delete From Vault
@@ -23,10 +24,14 @@
           </div>
           <div class="col-md-3 d-flex justify-content-right p-1">
             <div class="mx-2">
-              <h5><i class="mdi mdi-file"> </i>{{ keep.kept }}</h5>
+              <h5>
+                <i class="mdi mdi-file" title="keeps"> </i>{{ keep.kept }}
+              </h5>
             </div>
             <div class="mx-2">
-              <h5><i class="mdi mdi-eye"></i> {{ keep.views }}</h5>
+              <h5>
+                <i class="mdi mdi-eye" title="views"></i> {{ keep.views }}
+              </h5>
             </div>
           </div>
         </div>
@@ -43,6 +48,7 @@
             <i
               v-if="keep.creatorId == account.id"
               class="mdi mdi-delete"
+              title="delete keep"
               @click="deleteKeep(keep.id)"
             ></i>
           </h1>
