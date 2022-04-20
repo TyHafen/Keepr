@@ -23,7 +23,13 @@
         />
       </div>
       <div class="form-check">
-        <input type="checkbox" class="form-check-input" id="exampleCheck1" />
+        <input
+          value=""
+          v-model="vault.isPrivate"
+          type="checkbox"
+          class="form-check-input"
+          id="exampleCheck1"
+        />
         <label class="form-check-label" for="exampleCheck1">private</label>
       </div>
       <button type="submit" class="btn btn-primary">Submit</button>
@@ -44,7 +50,7 @@ export default {
       vault,
       async createVault() {
         try {
-
+          logger.log(vault.value)
           await vaultsService.createVault(vault.value);
         } catch (error) {
           logger.error(error)

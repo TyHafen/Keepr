@@ -18,8 +18,11 @@
       </div>
     </div>
     <div class="row m-3">
-      <div class="col-md-12">
-        <h4>Keeps:</h4>
+      <h4>Keeps:</h4>
+      <div class="masonry">
+        <div class="col-md-12 p-3" v-for="v in vaultKeeps" :key="v.id">
+          <VaultKeeps :vaultKeep="v" />
+        </div>
       </div>
       <div class="col-md-4"></div>
     </div>
@@ -36,7 +39,9 @@ import { AppState } from '../AppState';
 import { logger } from '../utils/Logger';
 import { router } from "../router"
 import Pop from '../utils/Pop';
+import Keep from '../components/Keep.vue';
 export default {
+  components: { Keep },
 
   setup() {
     let editable = ref({})
@@ -53,6 +58,7 @@ export default {
       }
     })
     return {
+      vaultKeeps: computed(() => AppState.activeVaultKeeps),
       vault: computed(() => AppState.activeVault),
       account: computed(() => AppState.account),
       async deleteVault(id) {
@@ -79,5 +85,14 @@ export default {
 }
 .btn-height {
   height: 50px;
+}
+.masonry {
+  columns: 6 220px;
+  column-gap: 1rem;
+
+  div {
+    display: inline-block;
+    width: 100%;
+  }
 }
 </style>

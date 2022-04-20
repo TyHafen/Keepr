@@ -23,16 +23,25 @@
         </div>
 
         <div class="row m-3justify-content-center">
-          <h1 class="border-bottom border-3 border-dark">
+          <h1
+            class="
+              border-bottom border-3 border-dark
+              d-flex
+              justify-content-between
+            "
+          >
             {{ keep.name }}
+            <i
+              v-if="keep.creatorId == account.id"
+              class="mdi mdi-delete"
+              @click="deleteKeep(keep.id)"
+            ></i>
           </h1>
-        </div>
-        <div class="row my-4">
-          <p>{{ keep.description }}</p>
+          <h3></h3>
         </div>
         <div class="row">
-          <div class="col-md-6 d-flex align-items-end justify-content-around">
-            <h4>
+          <h4>
+            <div class="">
               <div>
                 <title>add to Vault</title>
                 <select name="" id="" v-model="vaultId">
@@ -44,15 +53,21 @@
                   Add to vault
                 </button>
               </div>
-            </h4>
+            </div>
+          </h4>
+        </div>
+        <div class="row my-4">
+          <p>{{ keep.description }}</p>
+        </div>
 
-            <h3>
-              <i
-                v-if="keep.creatorId == account.id"
-                class="mdi mdi-delete"
-                @click="deleteKeep(keep.id)"
-              ></i>
-            </h3>
+        <div class="row fixed-bottom">
+          <div class="col-md-6 d-flex align-items-end justify-content-around">
+            <button
+              class="btn btn-primary"
+              @click="deleteKeepFromVault(keep.id)"
+            >
+              Delete From Vault
+            </button>
           </div>
 
           <div class="col-md-6">
@@ -75,7 +90,7 @@
 import { computed, reactive, ref } from '@vue/reactivity'
 import { AppState } from '../AppState'
 import { Modal } from 'bootstrap'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { logger } from '../utils/Logger'
 import Pop from '../utils/Pop'
 import { keepsService } from '../services/KeepsService'
@@ -88,9 +103,10 @@ export default {
   setup() {
     const vaultId = ref({})
     const router = useRouter()
+    const route = useRoute()
     onMounted(async () => {
       try {
-        await accountService.getAccountVaults()
+        // await accountService.getAccountVaults()
       } catch (error) {
         logger.error(error)
         Pop.toast(error.message, 'error')
@@ -99,7 +115,7 @@ export default {
 
 
     return {
-
+      vaultId,
       keep: computed(() => AppState.activeKeep),
       account: computed(() => AppState.account),
       myVaults: computed(() => AppState.accountVaults),
@@ -109,7 +125,7 @@ export default {
       },
       async deleteKeep(id) {
         try {
-          if (await Pop.confirm("Are you sure you want to delete this vault?")) {
+          if (await Pop.confirm("Are you sure you want to delete this keep?")) {
             Modal.getOrCreateInstance(document.getElementById('active-keep')).hide()
             await keepsService.deleteKeep(id);
 
@@ -122,9 +138,19 @@ export default {
       },
       async create() {
         try {
+          logger.log(vaultId.vaultId)
           const newVaultKeep = { vaultId: vaultId.value, keepId: AppState.activeKeep.id }
           logger.log(newVaultKeep)
           await vaultKeepsService.create(newVaultKeep)
+        } catch (error) {
+          logger.error(error)
+          Pop.toast(error.message, 'error')
+        }
+      },
+      async deleteKeepFromVault(keepId) {
+        try {
+          if (await Pop.confirm("Are you sure you want to delete this keep?")) { await vaultKeepsService.delete(keepId, route.params.id) }
+
         } catch (error) {
           logger.error(error)
           Pop.toast(error.message, 'error')

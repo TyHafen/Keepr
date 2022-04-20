@@ -26,6 +26,13 @@ namespace Keepr.Repositories
             string sql = @"SELECT * FROM vaultKeeps WHERE vaultKeeps.vaultId = @id";
             return _db.QueryFirstOrDefault<VaultKeep>(sql, new { id });
         }
+
+        internal VaultKeep Validate(VaultKeep vkData)
+        {
+            string sql = @"SELECT * FROM vaultKeeps WHERE vaultKeeps.vaultId = @VaultId AND vaultKeeps.keepId = @KeepId";
+            return _db.QueryFirstOrDefault<VaultKeep>(sql, vkData);
+        }
+
         internal VaultKeep GetById(int id)
         {
             string sql = @"SELECT * FROM vaultKeeps WHERE id = @id";

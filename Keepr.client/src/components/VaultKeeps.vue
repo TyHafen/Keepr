@@ -6,17 +6,17 @@
     @click="setActive"
   >
     <div class="bg-dark card-shadow selectable rounded">
-      <img class="card-img" :src="keep.img" alt="Card image" />
+      <img class="card-img" :src="vaultKeep.img" alt="Card image" />
       <div class="card-img-overlay d-flex">
         <div class="row align-items-end justify-content-between m-0">
           <div class="col-md-10 d-flex align-items-end">
-            <h5 class="card-title vault-text">{{ keep.name }}</h5>
+            <h5 class="card-title vault-text">{{ vaultKeep.name }}</h5>
           </div>
           <div class="col-md-2">
             <img
-              v-if="keep.creator?.picture"
+              v-if="vaultKeep.creator?.picture"
               class="vault-creator"
-              :src="keep.creator?.picture"
+              :src="vaultKeep.creator?.picture"
               alt=""
             />
           </div>
@@ -36,16 +36,16 @@ import { logger } from '../utils/Logger'
 import Pop from '../utils/Pop'
 export default {
   props: {
-    keep: {
+    vaultKeep: {
       type: Object,
       required: true
-    },
+    }
   },
   setup(props) {
     return {
       async setActive() {
         try {
-          await keepsService.setActive(props.keep.id)
+          await keepsService.setActive(props.vaultKeep.id)
         } catch (error) {
           logger.error(error)
           Pop.toast(error.message, 'error')

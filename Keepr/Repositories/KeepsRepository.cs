@@ -41,6 +41,39 @@ namespace Keepr.Repositories
             }, new { id }).FirstOrDefault();
         }
 
+        internal Keep IncrementKeep(Keep keep)
+        {
+            string sql = @"UPDATE keeps SET kept= kept + 1 WHERE id = @Id";
+            int rows = _db.Execute(sql, keep);
+            if (rows > 0)
+            {
+                return keep;
+            }
+            throw new Exception("SQL error on editting a keep. no row was affected");
+        }
+        internal Keep DecrementKeep(Keep keep)
+        {
+            string sql = @"UPDATE keeps SET kept= kept - 1 WHERE id = @Id";
+            int rows = _db.Execute(sql, keep);
+            if (rows > 0)
+            {
+                return keep;
+            }
+            throw new Exception("SQL error on editting a keep. no row was affected");
+        }
+
+
+        internal Keep IncreaseViews(Keep original)
+        {
+            string sql = @"UPDATE keeps SET views= views + 1 WHERE id = @Id";
+            int rows = _db.Execute(sql, original);
+            if (rows > 0)
+            {
+                return original;
+            }
+            throw new Exception("SQL error on editting a keep. no row was affected");
+        }
+
         internal Keep Create(Keep data)
         {
             string sql = @"

@@ -8,20 +8,26 @@ namespace Keepr.Services
     {
         private readonly VaultKeepsRepository _vkRepo;
         private readonly VaultsRepository _vaultsRepo;
+        private readonly KeepsRepository _keepsRepo;
 
-        public VaultKeepsService(VaultKeepsRepository vkRepo, VaultsRepository vaultsRepo)
+        public VaultKeepsService(VaultKeepsRepository vkRepo, VaultsRepository vaultsRepo, KeepsRepository keepsRepo)
         {
             _vkRepo = vkRepo;
             _vaultsRepo = vaultsRepo;
+            _keepsRepo = keepsRepo;
         }
 
         internal VaultKeep Create(VaultKeep vkData, string userId)
         {
             Vault vaultToCheck = _vaultsRepo.GetById(vkData.VaultId);
-            if (vaultToCheck.CreatorId != userId)
+            VaultKeep isVault = _vkRepo.Validate(vkData);
+
+            if (vaultToCheck.CreatorId != userId || isVault != null)
             {
                 throw new Exception("cant add a keep to a vault that is not yours");
             }
+            Keep keepToIncrement = _keepsRepo.GetById(vkData.KeepId);
+            _keepsRepo.IncrementKeep(keepToIncrement);
             return _vkRepo.Create(vkData);
 
 
@@ -34,6 +40,8 @@ namespace Keepr.Services
             {
                 throw new Exception("Not yourssss vaultKeep to delete");
             }
+            Keep keep = _keepsRepo.GetById(found.KeepId);
+            _keepsRepo.DecrementKeep(keep);
             _vkRepo.Delete(id);
         }
         private VaultKeep Get(int id)

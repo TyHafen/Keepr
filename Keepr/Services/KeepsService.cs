@@ -31,6 +31,8 @@ namespace Keepr.Services
             {
                 throw new Exception("This keep doesnt exist");
             }
+            original.Views++;
+            original = _keepsRepo.IncreaseViews(original);
             return original;
 
         }
