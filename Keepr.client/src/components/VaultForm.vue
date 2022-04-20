@@ -43,6 +43,7 @@ import { ref } from '@vue/reactivity';
 import { logger } from '../utils/Logger';
 import Pop from '../utils/Pop';
 import { vaultsService } from '../services/VaultsService.js'
+import { Modal } from 'bootstrap';
 export default {
   setup() {
     let vault = ref({});
@@ -51,6 +52,7 @@ export default {
       async createVault() {
         try {
           logger.log(vault.value)
+          Modal.getOrCreateInstance(document.getElementById('create-vault')).hide()
           await vaultsService.createVault(vault.value);
         } catch (error) {
           logger.error(error)

@@ -10,8 +10,8 @@
         <h3>Keeps: {{ profileKeeps.length }}</h3>
       </div>
     </div>
-    <div class="row mt-5 m-3 justify-content-around">
-      <h1>
+    <div class="row mt-5 m-3">
+      <h1 class="">
         Vaults
         <i
           v-if="account.id == profile.id"
@@ -22,7 +22,7 @@
       </h1>
       <div class="col-md-2 m-1" v-for="v in profileVaults" :key="v.id">
         <router-link :to="{ name: 'Vault', params: { id: v.id } }">
-          <h4>{{ v.name }}</h4>
+          <h4 class="btn btn-primary shadow">{{ v.name }}</h4>
         </router-link>
       </div>
     </div>

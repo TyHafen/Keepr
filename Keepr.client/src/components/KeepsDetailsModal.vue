@@ -4,7 +4,7 @@
       <div class="col-md-6">
         <img
           height="500"
-          class="w-100 object-fit-cover"
+          class="w-100 object-fit-cover shadow rounded"
           :src="keep.img"
           alt=""
         />
@@ -22,7 +22,7 @@
           </div>
         </div>
 
-        <div class="row m-3justify-content-center">
+        <div class="row m-3 justify-content-center">
           <h1
             class="
               border-bottom border-3 border-dark
@@ -37,44 +37,39 @@
               @click="deleteKeep(keep.id)"
             ></i>
           </h1>
-          <h3></h3>
         </div>
-        <div class="row">
-          <h4>
-            <div class="">
-              <div>
-                <title>add to Vault</title>
-                <select name="" id="" v-model="vaultId">
-                  <option :value="v.id" v-for="v in myVaults" :key="v.id">
-                    {{ v.name }}
-                  </option>
-                </select>
-                <button class="btn btn-primary m-1" @click="create">
-                  Add to vault
-                </button>
-              </div>
-            </div>
-          </h4>
-        </div>
+
         <div class="row my-4">
           <p>{{ keep.description }}</p>
         </div>
 
-        <div class="row fixed-bottom">
+        <div class="row bottom m-3 p-2">
           <div class="col-md-6 d-flex align-items-end justify-content-around">
+            <!-- button for delete vault -->
             <button
-              class="btn btn-primary"
+              class="btn btn-primary shadow"
               @click="deleteKeepFromVault(keep.id)"
             >
               Delete From Vault
             </button>
+            <!-- drop down for vault choice -->
+
+            <div class="">
+              <title>add to Vault</title>
+              <select name="" id="" v-model="vaultId">
+                <option :value="v.id" v-for="v in myVaults" :key="v.id">
+                  {{ v.name }}
+                </option>
+              </select>
+              <button class="btn btn-primary m-1 shadow" @click="create">
+                Add to vault
+              </button>
+            </div>
           </div>
 
-          <div class="col-md-6">
-            <div
-              class="row align-items-end"
-              @click="goToProfile(keep.creatorId)"
-            >
+          <div class="col-md-6 d-flex justify-content-end align-items-end">
+            <!-- profile photo and name -->
+            <div @click="goToProfile(keep.creatorId)">
               <img class="photo" :src="keep.creator?.picture" alt="" />
               {{ keep.creator?.name }}
             </div>
@@ -141,6 +136,7 @@ export default {
           logger.log(vaultId.vaultId)
           const newVaultKeep = { vaultId: vaultId.value, keepId: AppState.activeKeep.id }
           logger.log(newVaultKeep)
+          Modal.getOrCreateInstance(document.getElementById('active-keep')).hide()
           await vaultKeepsService.create(newVaultKeep)
         } catch (error) {
           logger.error(error)
@@ -149,7 +145,10 @@ export default {
       },
       async deleteKeepFromVault(keepId) {
         try {
-          if (await Pop.confirm("Are you sure you want to delete this keep?")) { await vaultKeepsService.delete(keepId, route.params.id) }
+          if (await Pop.confirm("Are you sure you want to delete this keep?")) {
+            Modal.getOrCreateInstance(document.getElementById('active-keep')).hide()
+            await vaultKeepsService.delete(keepId, route.params.id)
+          }
 
         } catch (error) {
           logger.error(error)
@@ -167,6 +166,10 @@ export default {
 <style lang="scss" scoped>
 .photo {
   height: 40px;
-  width: 60px;
+  width: 40px;
+}
+.bottom {
+  position: absolute;
+  bottom: 0;
 }
 </style>
