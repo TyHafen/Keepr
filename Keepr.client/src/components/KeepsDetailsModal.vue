@@ -69,9 +69,9 @@
 
           <div class="col-md-6 d-flex justify-content-end align-items-end">
             <!-- profile photo and name -->
-            <div @click="goToProfile(keep.creatorId)">
+            <div @click="goToProfile(keep.creatorId)" class="selectable">
               <img class="photo" :src="keep.creator?.picture" alt="" />
-              {{ keep.creator?.name }}
+              <div class="bold">{{ keep.creator?.name }}</div>
             </div>
           </div>
         </div>
@@ -115,8 +115,14 @@ export default {
       account: computed(() => AppState.account),
       myVaults: computed(() => AppState.accountVaults),
       goToProfile(id) {
-        Modal.getOrCreateInstance(document.getElementById('active-keep')).hide()
-        router.push({ name: "Profile", params: { id } })
+        try {
+          Modal.getOrCreateInstance(document.getElementById('active-keep')).hide()
+          router.push({ name: "Profile", params: { id } })
+        } catch (error) {
+          logger.error(error)
+          Pop.toast(error.message, 'error')
+        }
+
       },
       async deleteKeep(id) {
         try {
@@ -133,9 +139,7 @@ export default {
       },
       async create() {
         try {
-          logger.log(vaultId.vaultId)
           const newVaultKeep = { vaultId: vaultId.value, keepId: AppState.activeKeep.id }
-          logger.log(newVaultKeep)
           Modal.getOrCreateInstance(document.getElementById('active-keep')).hide()
           await vaultKeepsService.create(newVaultKeep)
         } catch (error) {
@@ -145,7 +149,7 @@ export default {
       },
       async deleteKeepFromVault(keepId) {
         try {
-          if (await Pop.confirm("Are you sure you want to delete this keep?")) {
+          if (await Pop.confirm("Are you sure you want to delete this keep from the vault?")) {
             Modal.getOrCreateInstance(document.getElementById('active-keep')).hide()
             await vaultKeepsService.delete(keepId, route.params.id)
           }
@@ -167,9 +171,13 @@ export default {
 .photo {
   height: 40px;
   width: 40px;
+  border-radius: 50%;
 }
 .bottom {
   position: absolute;
   bottom: 0;
+}
+.bold {
+  font-weight: 600;
 }
 </style>

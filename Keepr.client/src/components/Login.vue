@@ -1,7 +1,7 @@
 <template>
   <span class="navbar-text">
     <button
-      class="btn selectable text-success lighten-30 text-uppercase my-2 my-lg-0"
+      class="btn selectable text-dark bold text-uppercase my-2 my-lg-0"
       @click="login, getAccountVaults"
       v-if="!user.isAuthenticated"
     >
@@ -20,9 +20,9 @@
             :src="account.picture"
             alt="account photo"
             height="40"
-            class="rounded"
+            class="rounded shadow"
           />
-          <span class="mx-3 text-success lighten-30">{{ account.name }}</span>
+          <span class="mx-3 text-dark bold">{{ account.name }}</span>
         </div>
       </div>
       <div
@@ -82,5 +82,9 @@ export default {
 }
 .hoverable {
   cursor: pointer;
+}
+.bold {
+  font-weight: 700;
+  font-size: 20px;
 }
 </style>

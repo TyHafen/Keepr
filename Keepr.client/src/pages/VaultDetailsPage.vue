@@ -11,7 +11,7 @@
       >
         <button
           v-if="vault.creatorId == account.id"
-          class="btn btn-primary btn-height"
+          class="btn btn-primary btn-height shadow bold"
         >
           Delete Vault
         </button>
@@ -32,7 +32,7 @@
 
 <script>
 import { computed, ref } from '@vue/reactivity';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { onMounted } from '@vue/runtime-core';
 import { vaultsService } from '../services/VaultsService';
 import { AppState } from '../AppState';
@@ -46,14 +46,17 @@ export default {
   setup() {
     let editable = ref({})
     const route = useRoute();
+    const router = useRouter();
     onMounted(async () => {
       if (route.params.id) {
         try {
           vaultsService.getVaultById(route.params.id)
           vaultsService.getVaultKeeps(route.params.id)
         } catch (error) {
+          router.push({ name: "Home" })
           logger.error(error)
           Pop.toast(error.message, 'error')
+
         }
       }
     })
@@ -94,5 +97,8 @@ export default {
     display: inline-block;
     width: 100%;
   }
+}
+.bold {
+  font-weight: 650;
 }
 </style>

@@ -15,14 +15,16 @@
         Vaults
         <i
           v-if="account.id == profile.id"
-          class="mdi mdi-plus"
+          class="mdi mdi-plus selectable"
           data-bs-toggle="modal"
           data-bs-target="#create-vault"
         ></i>
       </h1>
       <div class="col-md-2 m-1" v-for="v in profileVaults" :key="v.id">
         <router-link :to="{ name: 'Vault', params: { id: v.id } }">
-          <h4 class="btn btn-primary shadow">{{ v.name }}</h4>
+          <h4 class="btn btn-primary shadow bold">
+            {{ v.name }} <i v-if="v.isPrivate" class="mdi mdi-lock"></i>
+          </h4>
         </router-link>
       </div>
     </div>
@@ -30,7 +32,7 @@
       <h1>
         Keeps
         <i
-          class="mdi mdi-plus"
+          class="mdi mdi-plus selectable"
           data-bs-toggle="modal"
           data-bs-target="#create-keep"
         ></i>
@@ -93,5 +95,8 @@ export default {
     display: inline-block;
     width: 100%;
   } */
+}
+.bold {
+  font-weight: 600;
 }
 </style>
