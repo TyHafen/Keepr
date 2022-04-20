@@ -50,13 +50,13 @@ export default {
     onMounted(async () => {
       if (route.params.id) {
         try {
-          vaultsService.getVaultById(route.params.id)
-          vaultsService.getVaultKeeps(route.params.id)
+          await vaultsService.getVaultById(route.params.id)
+          await vaultsService.getVaultKeeps(route.params.id)
         } catch (error) {
-          router.push({ name: "Home" })
-          logger.error(error)
-          Pop.toast(error.message, 'error')
 
+          logger.error(error)
+          Pop.toast('You are not allowed to access someone elses private vault')
+          router.push({ name: "Home" })
         }
       }
     })

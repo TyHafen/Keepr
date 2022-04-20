@@ -86,15 +86,15 @@ export default {
 }
 </script>
 
-<style scoped>
+<style  lang="scss" scoped>
 .masonry {
   columns: 6 220px;
   column-gap: 1rem;
 
-  /* div {
+  div {
     display: inline-block;
     width: 100%;
-  } */
+  }
 }
 .bold {
   font-weight: 600;

@@ -11,7 +11,16 @@
       </div>
       <div class="col-md-6">
         <div class="row justify-content-center">
-          <div class="col-md-9"></div>
+          <div class="col-md-9">
+            <!-- Remove from vault -->
+            <button
+              v-if="vault.creatorId == account.id && $route.name == 'Vault'"
+              class="btn btn-primary shadow"
+              @click="deleteKeepFromVault(keep.id)"
+            >
+              Delete From Vault
+            </button>
+          </div>
           <div class="col-md-3 d-flex justify-content-right p-1">
             <div class="mx-2">
               <h5><i class="mdi mdi-file"> </i>{{ keep.kept }}</h5>
@@ -44,17 +53,12 @@
         </div>
 
         <div class="row bottom m-3 p-2">
-          <div class="col-md-6 d-flex align-items-end justify-content-around">
+          <div class="col-md-6 d-flex align-items-end justify-content-between">
             <!-- button for delete vault -->
-            <button
-              class="btn btn-primary shadow"
-              @click="deleteKeepFromVault(keep.id)"
-            >
-              Delete From Vault
-            </button>
+
             <!-- drop down for vault choice -->
 
-            <div class="">
+            <div>
               <title>add to Vault</title>
               <select name="" id="" v-model="vaultId">
                 <option :value="v.id" v-for="v in myVaults" :key="v.id">
@@ -114,6 +118,7 @@ export default {
       keep: computed(() => AppState.activeKeep),
       account: computed(() => AppState.account),
       myVaults: computed(() => AppState.accountVaults),
+      vault: computed(() => AppState.activeVault),
       goToProfile(id) {
         try {
           Modal.getOrCreateInstance(document.getElementById('active-keep')).hide()

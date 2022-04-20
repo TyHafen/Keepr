@@ -5,7 +5,7 @@
     data-bs-target="#active-keep"
     @click="setActive"
   >
-    <div class="bg-dark card-shadow selectable rounded">
+    <div class="bg-dark shadow selectable rounded">
       <img class="card-img" :src="keep.img" alt="Card image" />
       <div class="card-img-overlay d-flex">
         <div class="row align-items-end justify-content-between m-0">

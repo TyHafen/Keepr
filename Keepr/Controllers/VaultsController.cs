@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CodeWorks.Auth0Provider;
@@ -56,7 +57,7 @@ namespace Keepr.Controllers
                 }
                 if (vault.IsPrivate && userInfo.Id != vault.CreatorId)
                 {
-                    throw new System.Exception("you cant see this vault beacuse it is private and os someone elses");
+                    throw new Exception("you cant see this vault because it is private and is someone elses");
                 }
                 return Ok(vault);
 
@@ -111,11 +112,11 @@ namespace Keepr.Controllers
                 Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
                 List<VaultKeepViewModel> keeps = _keepsService.GetKeepsByVault(id);
                 Vault vault = _vaultsService.GetById(id);
-                if (vault.IsPrivate && vault.CreatorId != userInfo.Id)
+                if (vault.IsPrivate && vault.CreatorId != userInfo?.Id)
                 {
                     throw new System.Exception("Cant reach a private keep that isnt yours");
                 }
-                if (vault.IsPrivate && vault.CreatorId == userInfo.Id)
+                if (vault.IsPrivate && vault.CreatorId == userInfo?.Id)
                 {
                     return Ok(keeps);
                 }
